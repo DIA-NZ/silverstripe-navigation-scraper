@@ -1,0 +1,15 @@
+{
+    "name": "deptinternalaffairsnz/silverstripe-navigation-scraper",
+    "type": "silverstripe-module",
+    "authors": [
+        {
+            "name": "James Goodman",
+            "email": "james.s.goodman@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "silverstripe/framework": "~3.1",
+        "fabpot/goutte": "~1.0"
+    }
+}
