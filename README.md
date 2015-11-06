@@ -15,7 +15,7 @@ In templates:
 Configuration:
 
 	NavigationScraper:
-	  menu_sets:
+	  MenuSets:
 		ScrapedFooter:
 		  PageToScrape: 'https://www.example.com'
 		  CSSSelector: '.footer-nav li a'
