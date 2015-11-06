@@ -1,0 +1,9 @@
+---
+Name: navigation-scraper
+After:
+  - 'framework/*'
+  - 'cms/*'
+---
+Injector:
+  NavigationScraperService:
+    class: NavigationScraperService
