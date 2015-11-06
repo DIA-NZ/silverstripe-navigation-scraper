@@ -11,5 +11,8 @@
     "require": {
         "silverstripe/framework": "~3.1",
         "fabpot/goutte": "~1.0"
+    },
+    "extra": {
+        "installer-name": "navigation-scraper"
     }
 }
