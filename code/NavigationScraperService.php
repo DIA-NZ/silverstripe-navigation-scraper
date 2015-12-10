@@ -2,13 +2,21 @@
 
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
+use Guzzle\Http\Client as GuzzleClient;
 
 class NavigationScraperService {
 
-	public function scrape($url, $selector) {
-		$client = new Client();
+	private $cache = array();
 
-		$crawler = $client->request('GET', $url);
+	/**
+	 * Scrapes the given URL and filters out a list of links based on the given CSS selector
+	 *
+	 * @param string $url
+	 * @param string $selector
+	 * @return array
+	 */
+	public function scrape($url, $selector) {
+		$crawler = $this->getCrawler($url);
 
 		$menuItems = $crawler->filter($selector)->each(function (Crawler $node) use ($url) {
 			return array(
@@ -18,6 +26,38 @@ class NavigationScraperService {
 		});
 
 		return $menuItems;
+	}
+
+	private function getCrawler($url) {
+		if (isset($this->cache[$url])) {
+			$crawler = $this->cache[$url];
+		} else {
+			$crawler = $this->getCrawlerCacheMiss($url);
+		}
+
+		return $crawler;
+	}
+
+	private function getCrawlerCacheMiss($url) {
+		$client = new Client();
+
+		$this->useProxyIfAvailable($client);
+
+		$this->cache[$url] = $client->request('GET', $url);
+
+		return $this->cache[$url];
+	}
+
+	private function useProxyIfAvailable(Client $client) {
+		if (defined('SS_OUTBOUND_PROXY') && defined('SS_OUTBOUND_PROXY_PORT')) {
+			$guzzleClient = new GuzzleClient('', array(
+				'request.options' => array(
+					'proxy' => 'tcp://' . SS_OUTBOUND_PROXY . ':' . SS_OUTBOUND_PROXY_PORT
+				)
+			));
+
+			$client->setClient($guzzleClient);
+		}
 	}
 
 }

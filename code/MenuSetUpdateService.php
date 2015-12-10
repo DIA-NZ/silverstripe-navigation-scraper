@@ -10,7 +10,21 @@ class MenuSetUpdateService {
 		foreach ($menuSetsToScrape as $menuSet => $details) {
 			$menuItems = $scraperService->scrape($details['PageToScrape'], $details['CSSSelector']);
 
-			Debug::dump($menuItems);
+			if (count($menuItems) == 0) {
+				continue;
+			}
+
+			MenuItem::get()->filter(array('MenuSet' => $menuSet))->removeAll();
+
+			foreach ($menuItems as $menuItemData) {
+				$menuItem = new MenuItem(array(
+					'MenuSet' => $menuSet,
+					'LinkText' => $menuItemData['html'],
+					'LinkHref' => $menuItemData['href']
+				));
+
+				$menuItem->write();
+			}
 		}
 	}
 
