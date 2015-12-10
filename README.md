@@ -7,7 +7,7 @@ A module for SilverStripe that allows you to scrape navigation from another site
 Install with composer:
 
 ```
-composer require 'deptinternalaffairsnz/silverstripe-navigation-scraper' '1.0.0'
+composer require 'deptinternalaffairsnz/silverstripe-navigation-scraper' '1.0.1'
 ```
 
 ## Usage

@@ -19,9 +19,15 @@ class NavigationScraperService {
 		$crawler = $this->getCrawler($url);
 
 		$menuItems = $crawler->filter($selector)->each(function (Crawler $node) use ($url) {
+			if ($this->hrefIsRelative($node->attr('href'))) {
+				$href = $url . '/' . ltrim($node->attr('href'), '/');
+			} else {
+				$href = $node->attr('href');
+			}
+
 			return array(
 				'html' => $node->html(),
-				'href' => $url . $node->attr('href')
+				'href' => $href
 			);
 		});
 
@@ -62,6 +68,12 @@ class NavigationScraperService {
 
 			$client->setClient($guzzleClient);
 		}
+	}
+
+	private function hrefIsRelative($href) {
+		preg_match('/^www.|^https?:|^\/\//', $href, $matches);
+
+		return count($matches) === 0;
 	}
 
 }
