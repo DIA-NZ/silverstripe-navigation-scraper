@@ -2,6 +2,9 @@
 
 class MenuSetUpdateService {
 
+	/**
+	 * Scrapes all configured MenuSets under the NavigationScraper configuration item
+	 */
 	public function scrapeConfiguredMenuSets() {
 		$menuSetsToScrape = Config::inst()->get('NavigationScraper', 'MenuSets');
 

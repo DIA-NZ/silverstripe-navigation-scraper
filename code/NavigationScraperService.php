@@ -28,6 +28,10 @@ class NavigationScraperService {
 		return $menuItems;
 	}
 
+	/**
+	 * @param string $url
+	 * @return Symfony\Component\DomCrawler\Crawler
+	 */
 	private function getCrawler($url) {
 		if (isset($this->cache[$url])) {
 			$crawler = $this->cache[$url];
