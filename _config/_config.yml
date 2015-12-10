@@ -7,3 +7,5 @@ After:
 Injector:
   NavigationScraperService:
     class: NavigationScraperService
+TriggerScrapeCronTask:
+  schedule: '0 1 * * *'

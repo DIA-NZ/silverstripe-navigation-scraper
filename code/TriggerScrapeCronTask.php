@@ -7,7 +7,7 @@ if (!interface_exists('CronTask')) {
 class TriggerScrapeCronTask implements CronTask {
 
 	public function getSchedule() {
-		return '0 1 * * *';
+		return Config::inst()->get('TriggerScrapeCronTask', 'schedule');
 	}
 
 	public function process() {
