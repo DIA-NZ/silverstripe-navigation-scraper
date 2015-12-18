@@ -1,34 +1,36 @@
 <?php
 
-class MenuSetUpdateServiceTest extends SapphireTest {
+class MenuSetUpdateServiceTest extends SapphireTest
+{
 
-	public function setUp() {
-		parent::setUp();
+    public function setUp()
+    {
+        parent::setUp();
 
-		Injector::inst()->registerService(new MockNavigationScraperService(), 'NavigationScraperService');
-	}
+        Injector::inst()->registerService(new MockNavigationScraperService(), 'NavigationScraperService');
+    }
 
-	public function testSomething() {
-		Config::inst()->remove('NavigationScraper', 'MenuSets');
-		Config::inst()->update('NavigationScraper', 'MenuSets', array(
-			'Test' => array(
-				'PageToScrape' => 'https://www.example.com',
-				'CSSSelector' => '.test a'
-			)
-		));
+    public function testSomething()
+    {
+        Config::inst()->remove('NavigationScraper', 'MenuSets');
+        Config::inst()->update('NavigationScraper', 'MenuSets', array(
+            'Test' => array(
+                'PageToScrape' => 'https://www.example.com',
+                'CSSSelector' => '.test a'
+            )
+        ));
 
-		$updateService = new MenuSetUpdateService();
-		$updateService->scrapeConfiguredMenuSets();
+        $updateService = new MenuSetUpdateService();
+        $updateService->scrapeConfiguredMenuSets();
 
-		$menuItems = MenuItem::get();
+        $menuItems = MenuItem::get();
 
-		$this->assertEquals(1, count($menuItems));
+        $this->assertEquals(1, count($menuItems));
 
-		$menuItem = $menuItems->first();
+        $menuItem = $menuItems->first();
 
-		$this->assertEquals('Test', $menuItem->MenuSet);
-		$this->assertEquals('Hello world!', $menuItem->LinkText);
-		$this->assertEquals('https://www.example.com/hello-world', $menuItem->LinkHref);
-	}
-
+        $this->assertEquals('Test', $menuItem->MenuSet);
+        $this->assertEquals('Hello world!', $menuItem->LinkText);
+        $this->assertEquals('https://www.example.com/hello-world', $menuItem->LinkHref);
+    }
 }
